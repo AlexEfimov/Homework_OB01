@@ -1,44 +1,68 @@
-class Task:
-    def __init__(self):
-        self.tasks = []
+class Store:
+    def __init__(self, name, address):
+        self.items = {}
+        self.name = name
+        self.address = address
 
-    def add_task(self, description, due_date):
-        task = {
-            "description": description,
-            "due_date": due_date,
-            "completed": False
-        }
-        self.tasks.append(task)
-        print(f"Задача добавлена: {task['description']} - {task['due_date']}")
+    def add_item(self, item, price):
+        self.items[item] = price
+        print(f"Товар {item} добавлен в ассортимент магазина {self.name}")
 
-    def mark_task_completed(self, description):
-        for task in self.tasks:
-            if task['description'] == description:
-                task['completed'] = True
-                print(f"Задача отмечена как выполненная: {task['description']}")
-                break
+    def remove_item(self, item):
+        if item in self.items:
+            del self.items[item]
+            print(f"Товар {item} удален из ассортимента магазина {self.name}")
         else:
-            print("Задача с таким описанием не найдена")
+            print(f"Товар {item} отсутствует в ассортименте.")
+            return 'None'
 
-    def show_current_tasks(self):
-        print("Текущие задачи:")
-        for task in self.tasks:
-            if not task['completed']:
-                print(f"{task['description']} - {task['due_date']} (Не выполнено)")
+    def get_price(self, item):
+        if item in self.items:
+            print(f"Цена товара {item} в магазине {self.name} -{self.items[item]}")
+            return self.items[item]
+
+        else:
+            print(f"Товар {item} отсутствует в ассортименте.")
+            return 'None'
+
+    def new_price(self, item, price):
+        if item in self.items:
+            self.items[item] = price
+            print(f"Цена товара {item} изменена, новая цена {price}")
+        else:
+            print(f"Товар {item} отсутствует в ассортименте.")
+            return 'None'
+
+    def get_all_items(self):
+        print(self.items)
 
 
-# Пример использования
-manager = Task()
-manager.add_task("Купить молоко", "2024-04-19")
-manager.add_task("Отправить отчет", "2024-04-20")
-manager.add_task("Сходить за пивом", "2024-04-23")
-manager.add_task("Сделать ДЗ Зерокод", "2024-04-22")
-manager.add_task("Сдать анализы", "2024-04-24")
-manager.add_task("Не забыть победить Китайцев!", "2024-04-21")
-manager.add_task("Насушить сухарей", "2024-04-23")
-manager.show_current_tasks()
-manager.mark_task_completed("Купить молоко")
-manager.mark_task_completed("Отправить отчет")
-manager.mark_task_completed("Сдать анализы")
-manager.mark_task_completed("Сделать ДЗ Зерокод")
-manager.show_current_tasks()
+Shop1 = Store("X5", "Коммунистический тупик, 1")
+Shop2 = Store("Горздрав", "проспект Согдаймулды Моокулдаева, 15")
+Shop3 = Store("Saturn", "Adolfplatz,14")
+
+Shop1.add_item("Огурец соленый", 10)
+Shop1.add_item("Водка паленая", 20)
+Shop1.add_item("Сырок плавленный", 15)
+Shop1.add_item("Вобла", 12)
+Shop1.get_all_items()
+
+Shop2.add_item("Кружка Эсмарха", 17)
+Shop2.add_item("Виагра", 30)
+Shop2.add_item("Витамин С", 10)
+Shop2.add_item("Аспирин", 5)
+Shop2.get_all_items()
+
+Shop3.add_item("iPhone45", 1000)
+Shop3.add_item("Notebook Figovo 15", 25)
+Shop3.add_item("Smartphone Gumanoid 19", 250)
+Shop3.add_item("Vacuum Cleaner Sucks 38", 100)
+Shop3.get_all_items()
+
+Shop3.get_price("iPhone45")
+Shop3.new_price("iPhone45", 800)
+Shop3.get_price("iPhone45")
+Shop3.remove_item("Notebook Figovo 15")
+Shop3.get_all_items()
+Shop3.add_item("Notebook PassionFruit 14", 500)
+Shop3.get_all_items()
